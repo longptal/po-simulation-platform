@@ -188,9 +188,14 @@ effective_difficulty = base_difficulty
   + (1 if has_delayed_consequences else 0) * 0.7
 ```
 
----
+### 4.1 Career Mode Model
 
-## 5. Scenario Library (MVP: 50 scenarios)
+Each scenario simulates **1 sprint (~2 weeks of a PO's day)**. The PO progresses through event-day checkpoints:
+- **Skip days**: Routine standups, backlog grooming, email triage are auto-resolved with a brief summary (PO can drill in if desired).
+- **Decision checkpoints**: The scenario pauses at meaningful decision nodes. PO makes a call, consequences unfold.
+- **Pause & resume**: Sessions are saveable at any checkpoint. A full sprint scenario takes ~45 min if played straight through.
+- **Checkpoint types**: Sprint Planning → Daily Standup → Metric Review → Stakeholder Call → Sprint Review.
+ (MVP: 50 scenarios)
 
 
 | Domain                 | Daily (70%) | Unexpected (20%) | Strategic (10%) | Total  |
@@ -261,8 +266,7 @@ scoring:
     - {name: prioritization, weight: 0.35}
     - {name: communication, weight: 0.25}
     - {name: analytics, weight: 0.15}
-    - {name: leadership, weight: 0.15}
-    - {name: technical, weight: 0.10}
+    - {name: stakeholder_management, weight: 0.25}
 
 outcomes:
   success_criteria: "Sprint plan co PCI patch + realistic scope, stakeholders duoc communicate ro rang"
@@ -289,7 +293,7 @@ outcomes:
 | AI Agent Orchestration    | Anthropic Agent SDK (TS) | Multi-agent coordination             |
 | LLM for Freeform Eval     | Claude Sonnet            | Evaluate freeform PO decisions       |
 | Scoring Engine            | TypeScript service       | XP, level progression                |
-| Scenario Authoring        | React Flow               | Visual decision tree editor          |
+| Scenario Authoring        | Phase 2 (React Flow)      | Visual decision tree editor          |
 | Scenario Template         | YAML + JSON Schema       | Human-readable, version-controllable |
 | AI Scenario Generator     | Claude + few-shot        | Generate new scenarios tu templates  |
 
@@ -323,12 +327,12 @@ outcomes:
 
 | Item                             | Target                                 |
 | -------------------------------- | -------------------------------------- |
-| Scenarios                        | 50 (5 domains)                         |
+| Scenarios                        | MVP: 15 scenarios, Phase 2: 50 (5 domains) |
 | Decision nodes / scenario        | 4-6 avg                                |
 | PO Levels                        | 20 (MVP test level 1-10)               |
 | Skill branches                   | 6                                      |
-| AI Agent roles                   | 5 (BA, Designer, Dev, Stakeholder, QA) |
-| Scoring dimensions               | 6                                      |
+| AI Agent roles                   | 5 (BA, Designer, Dev, Stakeholder, Customer) |
+| Scoring dimensions               | 4 (MVP).                              |
 | Estimated dev time (engine only) | 8-10 weeks / 2 engineers               |
 
 

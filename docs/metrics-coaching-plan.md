@@ -31,6 +31,9 @@ https://{simulation-id}.posim.app
 
 ## 2. Simulated Users System
 
+> **⚠️ Phase 1 vs Phase 2 Note:**
+> Phase 1 uses a pure model-based approach — **no Playwright**. Metrics are **calculated** from decision modifiers using LLM reasoning, not measured from real browser sessions. The full synthetic user system described in this section is a **Phase 2 vision** to validate the Phase 1 model against real behavior.
+
 ### Architecture
 
 ```
@@ -98,9 +101,11 @@ interface DecisionImpact {
 }
 ```
 
-### Session Simulation
+### Session Simulation (Phase 2 Vision)
 
-Synthetic users "dùng" app thật qua **Playwright headless browser:**
+> **This section describes Phase 2 only.** In Phase 1, session simulation is replaced by model-based calculation (see Section 3).
+
+In Phase 2, synthetic users "dùng" app thật qua **Playwright headless browser:**
 
 1. Playwright navigate tới deployed app URL
 2. Thực hiện actions theo persona behavior model
@@ -421,6 +426,10 @@ interface CoachingConfig {
 
 ## 6. PO Progress Tracking — Skill Matrix
 
+> **📦 MVP Scope (Phase 1):**
+> - **Included:** Basic metrics calculation, decision → impact modifier mapping, sprint retrospective report, real-time coaching cards
+> - **Phase 2/3 items:** Playwright session simulation (Section 2), skill matrix tracking, adaptive difficulty, causal graph visualization
+
 ### Skill Taxonomy
 
 ```yaml
@@ -523,6 +532,9 @@ Khi PO improve, hệ thống tự động:
 ---
 
 ## 7. Report Format — Sprint Retrospective
+
+> **⏱ Career Mode Time Model:**
+> 1 scenario = 1 sprint. The PO fast-forwards through uneventful days (compressed, no decisions) and the simulation **stops at event-day checkpoints** — moments with decisions, stakeholder conflicts, or metric changes. This keeps sessions focused (~15 min real-time per sprint) while preserving the rhythm of a real sprint cycle.
 
 ### Auto-generated sau mỗi sprint
 
@@ -650,6 +662,9 @@ Cho MVP, **KHÔNG cần Playwright simulation**. Thay vào đó:
 - Vẫn deploy app thật (để PO thấy output), nhưng metrics đến từ model
 
 Phase 2 mới thêm Playwright để validate model vs real behavior.
+
+> **💰 LLM Cost Clarification:**
+> Target cost is **< $2.00 per scenario** (1 sprint, ~15 min). A full session of 3 sprints runs ~$4–6. Cost control achieved via: model tiering (Haiku for simple agents like Stakeholder/Customer; Sonnet only for BA/Designer/Dev), and prompt caching targeting 90% input cost reduction. Free tier capped at 3 sessions/day.
 
 ---
 

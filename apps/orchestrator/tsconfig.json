@@ -2,10 +2,15 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@po-sim/shared": ["../../packages/shared/src"],
+      "@po-sim/shared/*": ["../../packages/shared/src/*"],
+      "@po-sim/db": ["../../packages/db/src"],
+      "@po-sim/db/*": ["../../packages/db/src/*"]
+    }
   },
   "include": ["src/**/*"],
-  "exclude": ["node_modules", "dist"],
   "references": [
     { "path": "../../packages/shared" },
     { "path": "../../packages/db" }

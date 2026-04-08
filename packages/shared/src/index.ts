@@ -16,3 +16,6 @@ export * from './utils/scenario-parser.js';
 
 // Export scoring engine
 export * from './scoring/index.js';
+
+// Export shared constants
+export * from './constants.js';

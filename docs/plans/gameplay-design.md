@@ -41,18 +41,18 @@ Gameplay không phải về 3-4 pivot decisions lớn. Gameplay là **27-45 micr
 **Không có "pivot moment" rõ ràng.** Mỗi ngày có 3-5 decisions nhỏ. Player không biết quyết định nào là "quan trọng nhất" cho đến khi thấy consequences.
 
 ```
-Ngày làm việc = Morning Briefing + 3-5 decision nodes + End of Day
-
-Một decision node điển hình:
-  [Context] BA Minh gửi spec draft lúc 2pm
+Event-day Checkpoint = 1 PO decision moment (thường kèm agent interaction)
+  [Context] BA Minh gửi spec draft — PO cần phản hồi
   [Choices]
     A. "Approve ngay" → Velocity +8, Quality -5 (thiếu review time)
     B. "Review kỹ, feedback chi tiết" → Quality +10, Velocity -8, Morale+BA +3
-    C. "Schedule review meeting sáng mai" → Delay +1 ngày, nhưng align team
+    C. "Schedule review meeting sáng mai" → Delay +1 checkpoint, nhưng align team
     D. "Delegate cho Dev Lead review" → Velocity neutral, nhưng nếu Dev Lead overload → Morale -5
+
+Ngày không có event = auto-skipped (Career Mode fast-forward)
 ```
 
-**Tổng cộng:** 9 ngày × 3-5 decisions = 27-45 decisions nhỏ trong 1 scenario
+**Tổng cộng:** 9 event-day checkpoints × ~3 decisions = ~27 decisions nhỏ trong 1 session (3 sprints)
 
 ---
 
@@ -61,11 +61,11 @@ Một decision node điển hình:
 **Hậu quả KHÔNG xuất hiện ngay.** Player phải commit mà không biết full impact.
 
 ```
-Ngày 2: Approve spec nhanh không review kỹ
-  → Ngày 3: Không có gì xảy ra (false sense of success)
-  → Ngày 5: Customer report bug từ edge case thiếu AC
-  → Ngày 7: Tech Debt +15, NPS -8, stakeholder trust -5
-  → Ngày 9: "Vì sao sản phẩm có nhiều bug?" — trong Sprint Retro
+Checkpoint 2 (Day 3): Approve spec nhanh không review kỹ
+  → Checkpoint 3 (Day 5): Không có gì xảy ra (false sense of success)
+  → Checkpoint 5 (Day 9): Customer report bug từ edge case thiếu AC
+  → Checkpoint 7 (Day 13): Tech Debt +15, NPS -8, stakeholder trust -5
+  → Checkpoint 9 (Day 16): "Vì sao sản phẩm có nhiều bug?" — trong Sprint Retro
 ```
 
 Rules:
@@ -156,24 +156,34 @@ Player đọc (có thể tham khảo lại bất cứ lúc nào trong game):
 
 ---
 
-## Cấu Trúc 3 Sprints × 3 Ngày
+## Cấu Trúc 3 Sprints × Event-Day Checkpoints (Career Mode)
+
+**Time model: Không phải đi qua tất cả 9 ngày.** Tương tự Career Mode trong game bóng đá — PO fast-forward qua những ngày không có sự kiện, chỉ **dừng lại** ở những ngày có quyết định quan trọng hoặc sự kiện bất ngờ.
+
+Một scenario (1 sprint = 2 tuần sim) bao gồm:
+- ~9 simulated days nhưng PO chỉ tương tác tại **4-6 event-day checkpoints**
+- Mỗi checkpoint = 1 ngày có sự kiện/quyết định cần xử lý
+- Các ngày không có event tự động skip (1 phút thực ≈ 2-3 simulated days)
 
 ```
 Sprint 1 — Survive (stakes thấp, consequences nhẹ):
-  Ngày 1: Onboarding + sprint planning. 3 decisions. Immediate feedback nhiều hơn để dạy mechanics.
-  Ngày 2: First BA deliverable + stakeholder ping. 4 decisions.
-  Ngày 3: Sprint review + retro. Consequences từ ngày 1-2 hiện ra. 3 decisions.
+  Checkpoint 1: Sprint Planning. 2-3 decisions.
+  Checkpoint 2: [Day 3] First BA deliverable + stakeholder ping. 2-3 decisions.
+  Checkpoint 3: [Day 5] Sprint Review + Retro. Consequences hiện ra. 2-3 decisions.
 
 Sprint 2 — Grow (stakes tăng, NPC autonomy bắt đầu):
-  Ngày 4: Competitor news + stakeholder escalation. 5 decisions.
-  Ngày 5: Mid-sprint crisis (1 trong 3 scripted: bug outbreak / scope creep / team conflict). 4 decisions.
-  Ngày 6: Sprint review. Consequences từ sprint 1 fully manifest. 4 decisions.
+  Checkpoint 4: [Day 7] Competitor news + stakeholder escalation. 3-4 decisions.
+  Checkpoint 5: [Day 9] Mid-sprint crisis (1 trong 3 scripted). 2-3 decisions.
+  Checkpoint 6: [Day 11] Sprint Review. Consequences từ sprint 1 fully manifest. 2-3 decisions.
 
 Sprint 3 — Thrive hoặc Survive (multi-front pressure):
-  Ngày 7: Board meeting prep + team morale check. 5 decisions.
-  Ngày 8: Climax day — tất cả unresolved threads từ sprint 1-2 converge. 5 decisions.
-  Ngày 9: Final sprint + ending trigger. 3 decisions.
+  Checkpoint 7: [Day 13] Board meeting prep + team morale check. 3-4 decisions.
+  Checkpoint 8: [Day 15] Climax day — unresolved threads converge. 3-4 decisions.
+  Checkpoint 9: [Day 16] Final sprint + ending trigger. 2-3 decisions.
 ```
+
+**Tổng cộng: 9 checkpoints × ~3 decisions = ~27 decisions nhỏ trong 1 session (3 sprints)**
+Real-time: ~25-40 phút cho toàn bộ session.
 
 ---
 

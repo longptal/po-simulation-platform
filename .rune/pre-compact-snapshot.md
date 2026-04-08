@@ -1,17 +1,17 @@
 # Pre-Compact Snapshot
-Generated: 2026-04-07T17:34:29.214Z
+Generated: 2026-04-08T08:43:58.719Z
 
 ## Session Metrics
-- Tool calls: 18
-- Session start: 2026-04-07T17:11:01.196Z
-- Top tools: Write(13), Edit(5)
+- Tool calls: 0
+- Session start: 2026-04-08T08:43:49.372Z
+- Top tools: 
 
 ## State Files (preview)
 ### .rune/progress.md
 # Progress Log
 
 ## Current Phase
-**Phase 1 — Foundation (Week 1-2): In Progress**
+**Phase 1 — Foundation (Week 1-2): ~85% Complete**
 
 ## Completed
 - [2026-04-07] Architecture planning documents finalized (5 docs in `docs/`)
@@ -37,15 +37,27 @@ Generated: 2026-04-07T17:34:29.214Z
   - `services/session-manager.ts` — Session actor manager
   - `routes/index.ts` — Hono REST API
   - `index.ts` — Main entry point
+- [2026-04-08] ✅ Implemented BA Agent with Claude API
+  - `apps/workers/src/agents/ba-agent.ts` — BA Agent with Sonnet 4
+  - `apps/workers/src/index.ts` — BullMQ worker service
+  - `packages/shared/src/schemas/agent-output.schema.ts` — Zod validation
+  - Retry logic, rate limiting, graceful shutdown
+- [2026-04-08] ✅ Database integration + Orchestrator ↔ BullMQ connection
+  - `packages/db/src/db.ts` — Database operations (CRUD for sessions, decisions, agent jobs)
+  - `apps/orchestrator/src/services/orchestrator.service.ts` — Core orchestration logic
+  - Load scenarios, create sessions, process decisions, dispatch BA jobs
+  - End-to-end flow: API → DB → BullMQ → Worker → Claude API
 
 ## Next Up (Phase 1 — Week 1-2: Foundation)
-- [ ] Implement BA Agent skeleton (`apps/workers/src/agents/ba-agent.ts`)
-- [ ] Set up BullMQ job queue + Redis event bus
-- [ ] Connect orchestrator to database (load scenarios, persist sessions)
-- [ ] Test end-to-end flow: load scenario → make decision → state transition
+- [x] Implement BA Agent skeleton (`apps/workers/src/agents/ba-agent.ts`)
+- [x] Set up BullMQ job queue + Redis event bus
+- [x] Connect orchestrator to database (load scenarios, persist sessions)
+- [x] Wire orchestrator to BullMQ (dispatch BA jobs on decision)
+- [ ] Test end-to-end flow with real API key
+- [ ] Agent completion notification (Redis Pub/Sub or polling)
+- [ ] Implement Stakeholder Agent (reactive feedback)
 
 ## Blocked
-- Nothing blocked — planning phase complete
 
 ### .rune/decisions.md
 # Architecture Decisions

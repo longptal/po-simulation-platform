@@ -1,8 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
     "outDir": "./dist",
-    "rootDir": "./src"
+    "rootDir": "./src",
+    "paths": {
+      "@po-sim/shared": ["../../packages/shared/src"],
+      "@po-sim/shared/*": ["../../packages/shared/src/*"]
+    }
   },
   "include": ["src/**/*"],
   "references": [

@@ -1,0 +1,2 @@
+{"id":"s-20260408-065317","date":"2026-04-08","duration_min":9,"tool_calls":3,"tool_distribution":{"Edit":3},"skill_invocations":1,"skills_used":["cook"],"primary_skill":"cook","models_used":{"opus":1}}
+{"id":"s-20260408-065317","date":"2026-04-08","duration_min":9,"tool_calls":3,"tool_distribution":{"Edit":3},"skill_invocations":0,"skills_used":[],"primary_skill":"none","models_used":{}}

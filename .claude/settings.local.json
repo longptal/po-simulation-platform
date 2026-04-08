@@ -30,7 +30,14 @@
       "Bash(npx vitest:*)",
       "Bash(grep -rn '// TODO\\\\|return null\\\\|return {}\\\\|return \\\\[\\\\]\\\\|NotImplementedError\\\\|// \\\\.\\\\.\\\\.\\\\|throw new Error.*not implemented' packages/shared/src/scoring/*.ts)",
       "Bash(curl:*)",
-      "Bash(npx playwright:*)"
+      "Bash(npx playwright:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh repo:*)",
+      "Bash(rm:*)",
+      "Bash(find:*)",
+      "Bash(pkill -f \"ba-\")",
+      "Bash(python3:*)",
+      "Bash(npm test:*)"
     ]
   }
 }

@@ -53,6 +53,10 @@ PO khong "choi game" — ho "di lam". App mo ra giong nhu mo Slack/Jira buoi san
 
 ## 2. Daily Workflow UX
 
+### Career Mode Time Model
+
+**Career Mode time model**: A sprint (scenario) covers simulated 2 weeks. The PO fast-forwards through uneventful days and the simulation stops ONLY at event-day checkpoints — days with a decision to make, a meeting, a stakeholder interrupt, or a milestone. Days without events are auto-skipped. Total real-time per sprint: 25–40 minutes.
+
 ### Cau truc "Ngay lam viec"
 
 Mot "ngay" trong simulation = **25-40 phut thuc te**, chia thanh 3 phase:
@@ -469,7 +473,7 @@ Sau khi PO quyet dinh -> feedback ngay lap tuc tu Coach:
 |------------|------|-------|
 | Chat voi agent | **Real-time** | PO can phan hoi ngay de hoc conversation skills |
 | Stakeholder meeting | **Real-time** | Negotiation can phan ung nhanh |
-| BA viet spec | **Async (overnight)** | Thuc te BA can thoi gian de viet |
+| BA viet spec | **Async** | Normal mode: overnight; Fast mode: minutes |
 | Dev code feature | **Async (overnight)** | Dev khong code xong trong 5 phut |
 | Designer tao mockup | **Async (vai gio sim)** | Design can thoi gian nhung khong lau nhu code |
 | Code review ready | **Notification** | PR xong -> PO nhan notify de review |
@@ -532,7 +536,7 @@ PO co the dieu chinh toc do:
 - **Frontend**: Next.js + Tailwind CSS (fast development, good DX)
 - **Real-time**: WebSocket cho chat, Server-Sent Events cho notifications
 - **State**: Zustand (lightweight, du manh)
-- **Backend**: Node.js API + LLM integration (OpenAI/Claude API)
+- **Backend**: Hono (TypeScript) API + LLM integration (OpenAI/Claude API)
 - **Database**: PostgreSQL (scenario data) + Redis (session, real-time state)
 
 ---

@@ -50,13 +50,14 @@
 ### Core Components
 
 
-| Component     | Tech                     | Vai tro                         |
-| ------------- | ------------------------ | ------------------------------- |
-| Orchestrator  | Node.js (TypeScript)     | Dieu phoi flow, quan ly session |
-| Event Bus     | Redis Pub/Sub            | Agent-to-agent communication    |
-| Task Queue    | BullMQ (Redis-backed)    | Async job processing, retry     |
-| State Store   | PostgreSQL + Redis cache | Session state, agent outputs    |
-| Agent Runtime | Isolated Node.js workers | Chay tung agent trong sandbox   |
+| Component            | Tech                     | Vai tro                                    |
+| -------------------- | ------------------------ | ------------------------------------------ |
+| Orchestrator         | Hono (TypeScript)        | Dieu phoi flow, quan ly session            |
+| Freeform Evaluator  | Claude Sonnet (inline)  | Parse PO freeform -> map to decision tree |
+| Event Bus            | Redis Pub/Sub            | Agent-to-agent communication              |
+| Task Queue           | BullMQ (Redis-backed)    | Async job processing, retry               |
+| State Store          | PostgreSQL + Redis cache | Session state, agent outputs              |
+| Agent Runtime        | Isolated Node.js workers | Chay tung agent trong sandbox             |
 
 
 ---
@@ -500,101 +501,264 @@ const worker = new Worker('dev-agent', async (job) => {
 
 ## 4. Orchestration Flow
 
-### 4.1 Main Flow: PO Decision -> Working Feature
+### 4.1 Main Flow - Phase 1 (MVP): 2 Agents (BA + Stakeholder)
+
+Time model: PO progresses through event-day checkpoints, just like Career Mode in a
+football game -- fast-forward through uneventful days, pause at decision moments.
+Time only stops at checkpoints that have a meaningful decision or scheduled event.
 
 ```
-PO makes decision
+PO arrives at event-day checkpoint
        |
        v
 [1] Orchestrator receives decision
        |
        v
-[2] BA Agent: create spec ──────────────────┐
-       |                                      |
-       v                                      |
-[3] PO reviews spec                           |
-       |                                      |
-    approve? ──no──> BA revises ──────────────┘
+[2] Freeform Evaluator: classify freeform input, map to decision tree
+       |         (Claude Sonnet: parse PO intent -> match option or create dynamic consequence)
+       v
+[3] BA Agent: create spec (async, BullMQ background job)
+       |         Spec ready within minutes (Fast mode) or next morning (Normal mode)
+       v
+[4] PO reviews spec
+       |
+    approve? --no--> BA revises -------- [3]
        |
       yes
        |
+      v
+[5] Stakeholder Agent: review spec, push back / provide feedback (async)
+       |
+      v
+[6] PO reviews stakeholder feedback, makes final call
+       |
+    ship? --no--> loop to [3] with specific feedback
+       |
+      yes
+       |
+      v
+[7] Sprint complete. Score PO decisions, update metrics.
+       |
+      v (time passes -- skip uneventful days)
+```
+
+All agent work (BA, Stakeholder) runs asynchronously in background (BullMQ).
+PO receives a notification when the spec or feedback is ready.
+Time jumps to the next event-day checkpoint.
+
+---
+
+### 4.1b Main Flow - Phase 2: Full 5-Agent Team
+
+```
+PO arrives at event-day checkpoint
+       |
        v
-[4] Designer Agent + Stakeholder Agent (parallel)
+[1] Orchestrator receives decision
+       |
+       v
+[2] Freeform Evaluator: classify freeform input, map to decision tree
+       |
+       v
+[3] BA Agent: create spec --------------------┐
+       |                                      |
+       v                                      |
+[4] PO reviews spec                           |
+       |                                      |
+    approve? --no--> BA revises ---------------+
+       |
+      yes
+       |
+      v
+[5] Designer Agent + Stakeholder Agent (parallel)
        |                    |
        |              Stakeholder feedback
        v                    |
-    Design output <─────────┘ (merge feedback)
+    Design output <----------+ (merge feedback)
        |
        v
-[5] PO reviews design
+[6] PO reviews design
        |
-    approve? ──no──> Designer revises
+    approve? --no--> Designer revises
        |
       yes
        |
-       v
-[6] Dev Agent: implement
+      v
+[7] Dev Agent: implement
        |
-       v
-[7] Auto-test (build + lint + test)
+      v
+[8] Auto-test (build + lint + test)
        |
-    pass? ──no──> Dev Agent: fix ──> [7]
-       |
-      yes
-       |
-       v
-[8] Customer Agent: usability review
-       |
-       v
-[9] Stakeholder Agent: final review
-       |
-       v
-[10] PO final decision
-       |
-    ship? ──no──> identify what to fix ──> [2] or [4] or [6]
+    pass? --no--> Dev Agent: fix --> [8]
        |
       yes
        |
-       v
-[11] Feature complete. Score PO decisions.
+      v
+[9] Customer Agent: usability review
+       |
+      v
+[10] Stakeholder Agent: final review
+       |
+      v
+[11] PO final decision
+       |
+    ship? --no--> identify what to fix --> [3] or [5] or [7]
+       |
+      yes
+       |
+      v
+[12] Sprint complete. Score PO decisions.
 ```
 
-### 4.2 State Machine
+### 4.2 State Machine - Phase 1 vs Phase 2
+
+**Phase 1 (MVP -- 2 agents: BA + Stakeholder):**
+
+Career Mode time model: machine halts only at event-day checkpoints.
+Between checkpoints, time passes freely (skip days).
 
 ```typescript
-enum SessionState {
-  INITIATED = 'initiated',
-  SPEC_DRAFTING = 'spec_drafting',
-  SPEC_REVIEW = 'spec_review',          // PO reviews
-  DESIGN_IN_PROGRESS = 'design_in_progress',
-  DESIGN_REVIEW = 'design_review',      // PO reviews
-  DEV_IN_PROGRESS = 'dev_in_progress',
-  DEV_TESTING = 'dev_testing',
-  USER_TESTING = 'user_testing',        // Customer agent
-  STAKEHOLDER_REVIEW = 'stakeholder_review',
-  FINAL_REVIEW = 'final_review',        // PO final call
-  COMPLETED = 'completed',
+enum SessionStatePhase1 {
+  INIT = 'init',                      // Scenario loaded, PO sees sprint context
+  AWAITING_DECISION = 'awaiting_decision',   // PO must choose at checkpoint
+  SPEC_DRAFTING = 'spec_drafting',     // BA working async in background
+  SPEC_REVIEW = 'spec_review',         // PO reviews BA spec
+  STAKEHOLDER_FEEDBACK = 'stakeholder_feedback', // Stakeholder reviewing async
+  DECISION_FINAL = 'decision_final',    // PO final call (ship / iterate)
+  SPRINT_COMPLETE = 'sprint_complete', // Score, update metrics
+  EVENT_DAY_WAIT = 'event_day_wait',   // Time passes; resume at next checkpoint
+  SESSION_COMPLETE = 'session_complete',
   FAILED = 'failed'
 }
 
-// Transitions
-const transitions: Record<SessionState, SessionState[]> = {
-  [SessionState.INITIATED]:          [SessionState.SPEC_DRAFTING],
-  [SessionState.SPEC_DRAFTING]:      [SessionState.SPEC_REVIEW],
-  [SessionState.SPEC_REVIEW]:        [SessionState.DESIGN_IN_PROGRESS, SessionState.SPEC_DRAFTING],
-  [SessionState.DESIGN_IN_PROGRESS]: [SessionState.DESIGN_REVIEW],
-  [SessionState.DESIGN_REVIEW]:      [SessionState.DEV_IN_PROGRESS, SessionState.DESIGN_IN_PROGRESS],
-  [SessionState.DEV_IN_PROGRESS]:    [SessionState.DEV_TESTING],
-  [SessionState.DEV_TESTING]:        [SessionState.USER_TESTING, SessionState.DEV_IN_PROGRESS],
-  [SessionState.USER_TESTING]:       [SessionState.STAKEHOLDER_REVIEW],
-  [SessionState.STAKEHOLDER_REVIEW]: [SessionState.FINAL_REVIEW],
-  [SessionState.FINAL_REVIEW]:       [SessionState.COMPLETED, SessionState.SPEC_DRAFTING,
-                                       SessionState.DESIGN_IN_PROGRESS, SessionState.DEV_IN_PROGRESS],
-  [SessionState.COMPLETED]:          [],
-  [SessionState.FAILED]:             [SessionState.INITIATED]
+const transitionsPhase1: Record<SessionStatePhase1, SessionStatePhase1[]> = {
+  [SessionStatePhase1.INIT]:               [SessionStatePhase1.AWAITING_DECISION],
+  [SessionStatePhase1.AWAITING_DECISION]: [SessionStatePhase1.SPEC_DRAFTING],
+  [SessionStatePhase1.SPEC_DRAFTING]:     [SessionStatePhase1.SPEC_REVIEW],
+  [SessionStatePhase1.SPEC_REVIEW]:        [SessionStatePhase1.STAKEHOLDER_FEEDBACK,
+                                            SessionStatePhase1.SPEC_DRAFTING],
+  [SessionStatePhase1.STAKEHOLDER_FEEDBACK]: [SessionStatePhase1.DECISION_FINAL],
+  [SessionStatePhase1.DECISION_FINAL]:      [SessionStatePhase1.SPRINT_COMPLETE,
+                                              SessionStatePhase1.SPEC_DRAFTING],
+  [SessionStatePhase1.SPRINT_COMPLETE]:     [SessionStatePhase1.EVENT_DAY_WAIT,
+                                              SessionStatePhase1.SESSION_COMPLETE],
+  [SessionStatePhase1.EVENT_DAY_WAIT]:      [SessionStatePhase1.AWAITING_DECISION],
+  [SessionStatePhase1.SESSION_COMPLETE]:    [],
+  [SessionStatePhase1.FAILED]:              [SessionStatePhase1.AWAITING_DECISION]
 };
 ```
 
+**Phase 2 (Full -- 5 agents: BA, Designer, Dev, Stakeholder, Customer):**
+
+```typescript
+enum SessionStatePhase2 {
+  INIT = 'init',
+  AWAITING_DECISION = 'awaiting_decision',
+  SPEC_DRAFTING = 'spec_drafting',
+  SPEC_REVIEW = 'spec_review',
+  DESIGN_IN_PROGRESS = 'design_in_progress',
+  DESIGN_REVIEW = 'design_review',
+  DEV_IN_PROGRESS = 'dev_in_progress',
+  DEV_TESTING = 'dev_testing',
+  USER_TESTING = 'user_testing',           // Customer agent
+  STAKEHOLDER_REVIEW = 'stakeholder_review',
+  FINAL_REVIEW = 'final_review',
+  SPRINT_COMPLETE = 'sprint_complete',
+  EVENT_DAY_WAIT = 'event_day_wait',
+  SESSION_COMPLETE = 'session_complete',
+  FAILED = 'failed'
+}
+
+const transitionsPhase2: Record<SessionStatePhase2, SessionStatePhase2[]> = {
+  [SessionStatePhase2.INIT]:                [SessionStatePhase2.AWAITING_DECISION],
+  [SessionStatePhase2.AWAITING_DECISION]:  [SessionStatePhase2.SPEC_DRAFTING],
+  [SessionStatePhase2.SPEC_DRAFTING]:       [SessionStatePhase2.SPEC_REVIEW],
+  [SessionStatePhase2.SPEC_REVIEW]:         [SessionStatePhase2.DESIGN_IN_PROGRESS,
+                                              SessionStatePhase2.SPEC_DRAFTING],
+  [SessionStatePhase2.DESIGN_IN_PROGRESS]:  [SessionStatePhase2.DESIGN_REVIEW],
+  [SessionStatePhase2.DESIGN_REVIEW]:        [SessionStatePhase2.DEV_IN_PROGRESS,
+                                              SessionStatePhase2.DESIGN_IN_PROGRESS],
+  [SessionStatePhase2.DEV_IN_PROGRESS]:     [SessionStatePhase2.DEV_TESTING],
+  [SessionStatePhase2.DEV_TESTING]:          [SessionStatePhase2.USER_TESTING,
+                                              SessionStatePhase2.DEV_IN_PROGRESS],
+  [SessionStatePhase2.USER_TESTING]:        [SessionStatePhase2.STAKEHOLDER_REVIEW],
+  [SessionStatePhase2.STAKEHOLDER_REVIEW]:   [SessionStatePhase2.FINAL_REVIEW],
+  [SessionStatePhase2.FINAL_REVIEW]:         [SessionStatePhase2.SPRINT_COMPLETE,
+                                              SessionStatePhase2.SPEC_DRAFTING,
+                                              SessionStatePhase2.DESIGN_IN_PROGRESS,
+                                              SessionStatePhase2.DEV_IN_PROGRESS],
+  [SessionStatePhase2.SPRINT_COMPLETE]:      [SessionStatePhase2.EVENT_DAY_WAIT,
+                                              SessionStatePhase2.SESSION_COMPLETE],
+  [SessionStatePhase2.EVENT_DAY_WAIT]:       [SessionStatePhase2.AWAITING_DECISION],
+  [SessionStatePhase2.SESSION_COMPLETE]:    [],
+  [SessionStatePhase2.FAILED]:               [SessionStatePhase2.AWAITING_DECISION]
+};
+```
+
+---
+
+### 4.2b Freeform Decision Evaluator
+
+When `allow_freeform: true` in a DecisionNode, PO can type a freeform response
+instead of choosing a preset option. The Freeform Evaluator parses intent and maps
+it to the closest decision-tree option, or creates a dynamic consequence.
+
+**Input contract:**
+
+```typescript
+interface FreeformEvaluatorInput {
+  sessionId: string;
+  freeformText: string;           // Raw PO input
+  decisionNode: DecisionNode;     // Current node with options + consequences
+  context: {
+    currentSprint: number;
+    productGoal: string;
+    recentDecisions: string[];    // For disambiguation
+  };
+}
+```
+
+**Output contract:**
+
+```typescript
+interface FreeformEvaluatorOutput {
+  mappedOptionId: string | null;  // Matched to existing option, null if novel
+  intent: string;                 // Parsed intent summary
+  scoreModifiers: ScoreModifier[]; // Same format as DecisionNode options
+  sideEffects: SideEffect[];      // If novel, generate consequences
+  confidence: number;             // 0.0-1.0; below threshold -> ask PO to clarify
+  clarificationQuestion?: string; // If confidence < 0.6
+}
+```
+
+**System prompt core:**
+
+```
+You are evaluating a Product Owner's freeform response to a product decision scenario.
+
+Given:
+- The PO's raw text input
+- The decision context and available options
+- Recent decisions made in this session
+
+Your job:
+1. Parse the PO's intent -- what are they trying to say/decide?
+2. Match to the closest available option (if any) -- use confidence threshold 0.6
+3. If novel (no close match), generate consequences consistent with the domain
+4. Return structured output with confidence score
+
+Rules:
+- Be generous in mapping -- prefer matching over creating novel options
+- If intent is ambiguous, ask ONE clarifying question rather than guessing
+- Novel options should score slightly lower than optimal preset options
+- Preserve the PO's reasoning style (data-driven vs gut, collaborative vs directive)
+```
+
+**Integration:** The Evaluator runs as a lightweight LLM call (Claude Sonnet, ~800 tokens)
+inline within the Orchestrator -- NOT a separate BullMQ job. It is synchronous,
+part of the decision-receiving flow, so PO gets instant feedback on freeform input.
+
+**Token estimate:** ~500-800 tokens input, ~300-500 tokens output per evaluation.
 ### 4.3 Orchestrator Implementation
 
 ```typescript
@@ -704,23 +868,23 @@ class SessionOrchestrator {
 
 ## 5. Cost Management
 
-### 5.1 Token Cost Estimate Per Session
+### 5.1 Token Cost Estimate Per Scenario (1 Sprint)
 
-Gia dinh 1 session = PO implement 1 feature trung binh (M complexity).
+Gia dinh 1 scenario = 1 sprint, PO implement 1 feature trung binh (M complexity).
+
+**Cost target: < $2.00 per scenario (1 sprint). Full MVP session (3 sprints) = ~$4-6.**
 
 
-| Agent                 | Calls/Session | Input Tokens | Output Tokens | Model                  | Cost/Call | Total              |
-| --------------------- | ------------- | ------------ | ------------- | ---------------------- | --------- | ------------------ |
+| Agent                 | Calls/Sprint | Input Tokens | Output Tokens | Model                  | Cost/Call | Total              |
+| --------------------- | ------------ | ------------ | ------------- | ---------------------- | --------- | ------------------ |
 | BA Agent              | 1-2           | ~3,000       | ~3,500        | Claude Sonnet          | ~$0.04    | ~$0.08             |
-| Designer Agent        | 1-2           | ~4,000       | ~5,000        | Claude Sonnet + Stitch | ~$0.06    | ~$0.12             |
-| Dev Agent             | 2-4           | ~8,000       | ~15,000       | Claude Sonnet / Codex  | ~$0.20    | ~$0.80             |
 | Stakeholder Agent     | 2-3           | ~2,000       | ~2,000        | Claude Haiku           | ~$0.005   | ~$0.015            |
-| Customer Agent        | 1-2           | ~2,000       | ~2,500        | Claude Haiku           | ~$0.005   | ~$0.01             |
-| Orchestrator LLM      | 3-5           | ~1,000       | ~500          | Claude Haiku           | ~$0.002   | ~$0.01             |
-| **Total per session** |               |              |               |                        |           | **~$1.00 - $1.50** |
+| Freeform Evaluator    | 1-2           | ~800         | ~500          | Claude Sonnet (inline)  | ~$0.01    | ~$0.02             |
+| **Total Phase 1 MVP** |               |              |               |                        |           | **~$0.12 - $0.20** |
 
+*Phase 2 adds Designer + Dev + Customer agents; full session cost rises accordingly.*
 
-Voi revisions va retries: **~$1.50 - $3.00 per feature session**.
+Voi revisions va retry: **~$0.30 - $1.50 per scenario**.
 
 ### 5.2 Cost Reduction Strategies
 
@@ -728,12 +892,13 @@ Voi revisions va retries: **~$1.50 - $3.00 per feature session**.
 
 ```typescript
 const MODEL_ROUTING = {
-  'ba-agent':          'claude-sonnet-4-6',    // Can reasoning tot
-  'designer-agent':    'claude-sonnet-4-6',    // Can creativity
-  'dev-agent':         'claude-sonnet-4-6',    // Can code quality
-  'stakeholder-agent': 'claude-haiku-4-5',     // Feedback don gian hon
-  'customer-agent':    'claude-haiku-4-5',     // Simulated user, khong can qua smart
-  'orchestrator':      'claude-haiku-4-5',     // Routing decisions
+  'ba-agent':            'claude-sonnet-4-6',  // Can reasoning tot
+  'designer-agent':      'claude-sonnet-4-6',  // Can creativity
+  'dev-agent':           'claude-sonnet-4-6',  // Can code quality
+  'stakeholder-agent':   'claude-haiku-4-5',   // Feedback don gian hon
+  'customer-agent':      'claude-haiku-4-5',   // Simulated user, khong can qua smart
+  'freeform-evaluator': 'claude-sonnet-4-6',   // Intent parsing, needs strong reasoning
+  'orchestrator':        'claude-haiku-4-5',   // Routing decisions
 };
 ```
 
@@ -949,7 +1114,7 @@ async function resumeSession(sessionId: string) {
 | Layer            | Technology                 | Ly do chon                                    |
 | ---------------- | -------------------------- | --------------------------------------------- |
 | **Runtime**      | Node.js 22 (TypeScript)    | Ecosystem MCP tot nhat, async native          |
-| **Framework**    | Fastify                    | Nhanh, schema validation built-in             |
+| **Framework**    | Hono                       | Nhe, TypeScript ecosystem tot, chia se types voi Next.js frontend |
 | **Queue**        | BullMQ + Redis 7           | Reliable, delayed jobs, rate limiting         |
 | **Database**     | PostgreSQL 16              | Session state, checkpoints, audit log         |
 | **Cache**        | Redis 7                    | Session cache, pub/sub, circuit breaker state |
@@ -1120,7 +1285,7 @@ interface POScorecard {
 | Queue          | BullMQ + Redis                                                               |
 | State          | PostgreSQL (durable) + Redis (cache)                                         |
 | LLM routing    | Sonnet cho BA/Designer/Dev, Haiku cho Stakeholder/Customer                   |
-| Cost/session   | ~$1.50-3.00 per feature                                                      |
+| Cost/session   | < $2.00 per scenario (1 sprint); ~$4-6 per full MVP session (3 sprints)  |
 | Error handling | Retry with backoff, circuit breaker, graceful degradation, checkpoint/resume |
 | MCP            | Stitch (design), Codex/Claude CLI (dev) via stdio transport                  |
 

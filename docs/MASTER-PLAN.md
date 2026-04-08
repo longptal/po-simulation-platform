@@ -10,6 +10,7 @@
 ```
 Nhan viec -> Ra quyet dinh -> Thay ket qua (metrics thuc) -> Nhan coaching feedback -> Lam tot hon
 ```
+(PO progresses through event-day checkpoints; 1 scenario = 1 sprint; Career Mode style — skip uneventful days, pause at decisions)
 
 **Unique Value vs Competitors:**
 - Khong phai khoa hoc hay video — PO "di lam" that su trong moi truong mo phong
@@ -109,7 +110,7 @@ Nhan viec -> Ra quyet dinh -> Thay ket qua (metrics thuc) -> Nhan coaching feedb
 | 1 | **Dashboard + Today's Focus** | UX | 3-column layout, morning briefing, team status, activity feed |
 | 2 | **Chat voi BA Agent** | UX + Orchestration | Slack-like chat, BA tao spec, PO review/approve |
 | 3 | **Chat voi Stakeholder Agent** | UX + Orchestration | Stakeholder push priorities, PO negotiate/pushback |
-| 4 | **1 Scenario hoan chinh** | Scenario | E-commerce domain, 3 sprints, ~15 scenarios level 1-7 |
+| 4 | **1 Scenario hoan chinh** | Scenario | E-commerce domain, 3 sprints, ~15 decision nodes level 1-7 *(1 Scenario = 1 sprint scenario. Full MVP session: 3 sprints from 1 domain, ~15 decision nodes total, ~45 min real-time.)* |
 | 5 | **Scenario Parser + State Machine** | Scenario | Load YAML scenarios, XState session flow |
 | 6 | **Morning Briefing + End of Day** | UX | Overnight updates, daily summary, coach feedback |
 | 7 | **Basic Scoring (4 categories)** | Metrics | Prioritization, Communication, Analytics, Stakeholder Mgmt |
@@ -119,6 +120,7 @@ Nhan viec -> Ra quyet dinh -> Thay ket qua (metrics thuc) -> Nhan coaching feedb
 | 11 | **Onboarding Flow (10 phut)** | UX | Welcome, chon scenario, guided first day, first decision |
 | 12 | **Basic Orchestrator** | Orchestration | Session manager, 2 agents (BA + Stakeholder), state transitions |
 | 13 | **Inbox + Notifications** | UX | Urgent/mention/info badges, sidebar notifications |
+| 14 | **Freeform Decision Evaluator** | Scenario | Parse PO freeform text -> match to decision tree (Zod-validated, retry + circuit breaker) |
 
 ### Deferred tu MVP
 
@@ -241,7 +243,7 @@ Nhan viec -> Ra quyet dinh -> Thay ket qua (metrics thuc) -> Nhan coaching feedb
 | **Average session length** | 25-40 phut | Time in app per session |
 | **User self-reported learning** | > 7/10 | Survey cuoi scenario |
 | **Decision quality improvement** | > 15% score tang | So sanh scoring sprint 1 vs sprint 3 |
-| **Cost per session** | < $2.00 | LLM API cost monitoring |
+| **Cost per session** | < $2.00 | Cost per scenario (1 sprint). Full MVP session (3 sprints): ~$4-6. LLM API cost monitoring |
 | **Agent response time (p95)** | < 8 giay | BA/Stakeholder chat response latency |
 | **System uptime** | > 99% | Monitoring alerts |
 | **NPS (user satisfaction)** | > 40 | Post-scenario survey |

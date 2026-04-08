@@ -11,3 +11,13 @@
 {"session":"s-20260407-190533","chain":["cook"],"depth":1}
 {"session":"s-20260407-190533","chain":["verification"],"depth":1}
 {"session":"s-20260407-190533","chain":["browser-pilot"],"depth":1}
+{"session":"s-20260408-065317","chain":["ba","ba"],"depth":2}
+{"session":"s-20260408-065317","chain":["ba","ba","ba","ba","ba","ba"],"depth":6}
+{"session":"s-20260408-084455","chain":["ba","ba"],"depth":2}
+{"session":"s-20260408-085239","chain":["cook"],"depth":1}
+{"session":"s-20260408-085239","chain":["ba","doc-processor"],"depth":2}
+{"session":"s-20260408-091835","chain":["design"],"depth":1}
+{"session":"s-20260408-091835","chain":["plan"],"depth":1}
+{"session":"s-20260408-091835","chain":["brainstorm"],"depth":1}
+{"session":"s-20260408-093914","chain":["plan"],"depth":1}
+{"session":"s-20260408-100718","chain":["cook"],"depth":1}
