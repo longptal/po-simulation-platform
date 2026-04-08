@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PO Simulation Platform — Decision Interface Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' } } } }
+    }
+  </script>
+</head>
+<body class="bg-zinc-900/50">
+
+  <!-- Modal Overlay -->
+  <div class="fixed inset-0 bg-black/40 flex items-center justify-center p-8">
+    <div class="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[calc(100vh-4rem)] overflow-y-auto">
+
+      <!-- Header -->
+      <div class="border-b border-zinc-200 px-6 py-4 flex items-center justify-between">
+        <div>
+          <h2 class="text-xl font-bold text-zinc-900">Decision Required</h2>
+          <p class="text-sm text-zinc-500 mt-0.5">Sprint 3 — Stakeholder priority request</p>
+        </div>
+        <button class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-md" aria-label="Close">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Context -->
+      <div class="px-6 py-4 bg-amber-50 border-b border-amber-100">
+        <div class="flex items-start gap-3">
+          <div class="w-8 h-8 rounded-full bg-orange-100 flex items-center justify-center text-xs font-bold text-orange-700 shrink-0 mt-0.5">SH</div>
+          <div>
+            <p class="text-sm text-zinc-800"><span class="font-semibold text-orange-700">Stakeholder Agent</span> says:</p>
+            <p class="text-base text-zinc-900 mt-1">"I need to re-prioritize Feature Z (Executive Dashboard) ahead of Feature A (User Search). The CEO has a board demo next week and this is a strategic commitment we can't miss. I know it disrupts the sprint — but can we make this work?"</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description -->
+      <div class="px-6 py-4">
+        <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide mb-3">Context</h3>
+        <p class="text-base text-zinc-700">Feature Z is currently in Sprint 4. The stakeholder wants it moved into current sprint. This means one of the existing commitments must be deferred or cut.</p>
+      </div>
+
+      <!-- Options -->
+      <div class="px-6 pb-4">
+        <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide mb-3">Choose your response</h3>
+        <div class="grid grid-cols-1 gap-4">
+
+          <!-- Option A -->
+          <div class="border border-zinc-200 rounded-lg p-5 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer group focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2" tabindex="0" role="button" aria-label="Option A: Yes, re-prioritize Feature Z">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-sm font-bold text-brand-700 shrink-0">A</div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-zinc-900 group-hover:text-brand-700">Accept the priority change</h4>
+                <p class="text-sm text-zinc-500 mt-1">Move Feature Z into current sprint, defer Feature C (Reporting)</p>
+                <div class="mt-3 space-y-1">
+                  <p class="text-xs text-green-700 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    Stakeholder trust increases significantly
+                  </p>
+                  <p class="text-xs text-red-600 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    Feature C reporting will be delayed to Sprint 5
+                  </p>
+                  <p class="text-xs text-red-600 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    Sets precedent: stakeholder may expect mid-sprint changes
+                  </p>
+                </div>
+              </div>
+              <button class="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity focus:opacity-100">Select</button>
+            </div>
+          </div>
+
+          <!-- Option B -->
+          <div class="border border-zinc-200 rounded-lg p-5 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer group focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2" tabindex="0" role="button" aria-label="Option B: Negotiate">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-sm font-bold text-brand-700 shrink-0">B</div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-zinc-900 group-hover:text-brand-700">Negotiate and push back</h4>
+                <p class="text-sm text-zinc-500 mt-1">Ask for more context, understand why it's urgent. Explore partial scope or MVP</p>
+                <div class="mt-3 space-y-1">
+                  <p class="text-xs text-green-700 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    Demonstrates professional PO pushback skills
+                  </p>
+                  <p class="text-xs text-green-700 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    May find a compromise (partial scope in current sprint)
+                  </p>
+                  <p class="text-xs text-amber-600 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    Stakeholder may become frustrated if not handled tactfully
+                  </p>
+                </div>
+              </div>
+              <button class="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity focus:opacity-100">Select</button>
+            </div>
+          </div>
+
+          <!-- Option C -->
+          <div class="border border-zinc-200 rounded-lg p-5 hover:border-brand-300 hover:shadow-md transition-all cursor-pointer group focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500 focus-within:ring-offset-2" tabindex="0" role="button" aria-label="Option C: Decline">
+            <div class="flex items-start gap-4">
+              <div class="w-8 h-8 rounded-full bg-brand-100 flex items-center justify-center text-sm font-bold text-brand-700 shrink-0">C</div>
+              <div class="flex-1">
+                <h4 class="font-semibold text-zinc-900 group-hover:text-brand-700">Decline and keep sprint as-is</h4>
+                <p class="text-sm text-zinc-500 mt-1">Keep current sprint commitments. Feature Z stays in Sprint 4 per plan</p>
+                <div class="mt-3 space-y-1">
+                  <p class="text-xs text-green-700 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+                    Protects sprint integrity and team focus
+                  </p>
+                  <p class="text-xs text-red-600 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    Stakeholder trust may decrease significantly
+                  </p>
+                  <p class="text-xs text-amber-600 flex items-center gap-1">
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/></svg>
+                    Must explain reasoning clearly or seem rigid
+                  </p>
+                </div>
+              </div>
+              <button class="shrink-0 px-4 py-2 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity focus:opacity-100">Select</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Coach Whisper -->
+      <div class="mx-6 mb-4 bg-zinc-100 border border-zinc-200 rounded-lg px-4 py-3 flex items-start gap-2">
+        <svg class="w-4 h-4 text-zinc-400 mt-0.5 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M11 3a1 1 0 10-2 0v1a1 1 0 102 0V3zM15.657 5.757a1 1 0 00-1.414-1.414l-.707.707a1 1 0 001.414 1.414l.707-.707zM18 10a1 1 0 01-1 1h-1a1 1 0 110-2h1a1 1 0 011 1zM5.05 6.464A1 1 0 106.464 5.05l-.707-.707a1 1 0 00-1.414 1.414l.707.707zM5 10a1 1 0 01-1 1H3a1 1 0 110-2h1a1 1 0 011 1zM8 16v-1h4v1a2 2 0 01-2 2H8a2 2 0 01-2-2zM12 14c1.657 0 3-1.343 3-3H9c0 1.657 1.343 3 3 3z"/></svg>
+        <p class="text-sm text-zinc-600"><span class="font-medium text-zinc-700">Coach whisper:</span> Before committing, try asking the stakeholder what specifically the CEO needs. Sometimes a partial solution is enough. Option B lets you gather more info.</p>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

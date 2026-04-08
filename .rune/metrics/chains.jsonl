@@ -1,0 +1,13 @@
+{"session":"s-20260406-174703","chain":["scout"],"depth":1}
+{"session":"s-20260406-174703","chain":["plan"],"depth":1}
+{"session":"s-20260407-171101","chain":["update-config"],"depth":1}
+{"session":"s-20260407-173526","chain":["ba","ba"],"depth":2}
+{"session":"s-20260407-173526","chain":["ba"],"depth":1}
+{"session":"s-20260407-173526","chain":["ba"],"depth":1}
+{"session":"s-20260407-173526","chain":["design","design","cook","cook"],"depth":4}
+{"session":"s-20260407-173526","chain":["cook","cook"],"depth":2}
+{"session":"s-20260407-185557","chain":["cook","cook","cook","cook"],"depth":4}
+{"session":"s-20260407-190533","chain":["ba","cook"],"depth":2}
+{"session":"s-20260407-190533","chain":["cook"],"depth":1}
+{"session":"s-20260407-190533","chain":["verification"],"depth":1}
+{"session":"s-20260407-190533","chain":["browser-pilot"],"depth":1}

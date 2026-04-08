@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PO Simulation Platform — Metrics Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' } } } }
+    }
+  </script>
+</head>
+<body class="bg-zinc-50 min-h-screen p-6">
+
+  <div class="max-w-5xl mx-auto">
+    <!-- Header -->
+    <div class="flex items-start justify-between mb-8">
+      <div>
+        <h1 class="text-2xl font-bold text-zinc-900">Performance Overview</h1>
+        <p class="text-sm text-zinc-500 mt-1">Sprint 3 — E-commerce Scenario</p>
+      </div>
+      <div class="bg-zinc-100 px-3 py-1.5 rounded-md flex items-center gap-2">
+        <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        <span class="text-xs text-zinc-500">Simulated metrics for training</span>
+      </div>
+    </div>
+
+    <!-- Overall Score -->
+    <div class="bg-white border border-zinc-200 rounded-lg p-6 mb-6">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-lg font-semibold text-zinc-900">Overall PO Score</h2>
+        <span class="text-sm text-green-600 font-medium flex items-center gap-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+          +12 from Sprint 2
+        </span>
+      </div>
+      <div class="flex items-center gap-6">
+        <div class="text-center">
+          <div class="text-6xl font-bold text-zinc-900 tabular-nums">78</div>
+          <div class="text-sm text-zinc-500 mt-1">out of 100</div>
+        </div>
+        <div class="flex-1">
+          <div class="w-full bg-zinc-100 rounded-full h-3">
+            <div class="bg-brand-600 h-3 rounded-full transition-all" style="width: 78%"></div>
+          </div>
+          <div class="flex justify-between mt-2">
+            <span class="text-xs text-zinc-400">0</span>
+            <span class="text-xs text-zinc-400">50</span>
+            <span class="text-xs text-zinc-400">100</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4 Category Scores -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+
+      <!-- Decision Quality -->
+      <div class="bg-white border border-zinc-200 rounded-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide">Decision Quality</h3>
+          <span class="text-xs text-green-600 font-medium flex items-center gap-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+            +8
+          </span>
+        </div>
+        <div class="flex items-end gap-2 mb-3">
+          <span class="text-3xl font-bold text-zinc-900 tabular-nums">82</span>
+          <span class="text-sm text-zinc-500">/ 100</span>
+        </div>
+        <div class="w-full bg-zinc-100 rounded-full h-2 mb-3">
+          <div class="bg-green-500 h-2 rounded-full" style="width: 82%"></div>
+        </div>
+        <p class="text-sm text-zinc-600 italic">"Data-driven, well-reasoned decisions with clear trade-off analysis."</p>
+        <!-- Sparkline -->
+        <div class="mt-3 pt-3 border-t border-zinc-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-zinc-400">Trend</span>
+            <div class="flex items-center gap-1">
+              <svg viewBox="0 0 60 20" class="w-16 h-6">
+                <polyline points="0,15 12,12 24,10 36,8 48,6 60,4" fill="none" stroke="#22c55e" stroke-width="1.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Prioritization -->
+      <div class="bg-white border border-zinc-200 rounded-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide">Prioritization</h3>
+          <span class="text-xs text-green-600 font-medium flex items-center gap-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+            +15
+          </span>
+        </div>
+        <div class="flex items-end gap-2 mb-3">
+          <span class="text-3xl font-bold text-zinc-900 tabular-nums">85</span>
+          <span class="text-sm text-zinc-500">/ 100</span>
+        </div>
+        <div class="w-full bg-zinc-100 rounded-full h-2 mb-3">
+          <div class="bg-green-500 h-2 rounded-full" style="width: 85%"></div>
+        </div>
+        <p class="text-sm text-zinc-600 italic">"RICE framework used effectively for sprint planning."</p>
+        <div class="mt-3 pt-3 border-t border-zinc-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-zinc-400">Trend</span>
+            <svg viewBox="0 0 60 20" class="w-16 h-6">
+              <polyline points="0,18 12,15 24,10 36,12 48,6 60,3" fill="none" stroke="#22c55e" stroke-width="1.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Stakeholder Management -->
+      <div class="bg-white border border-zinc-200 rounded-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide">Stakeholder Mgmt</h3>
+          <span class="text-xs text-green-600 font-medium flex items-center gap-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"/></svg>
+            +5
+          </span>
+        </div>
+        <div class="flex items-end gap-2 mb-3">
+          <span class="text-3xl font-bold text-zinc-900 tabular-nums">72</span>
+          <span class="text-sm text-zinc-500">/ 100</span>
+        </div>
+        <div class="w-full bg-zinc-100 rounded-full h-2 mb-3">
+          <div class="bg-amber-500 h-2 rounded-full" style="width: 72%"></div>
+        </div>
+        <p class="text-sm text-zinc-600 italic">"Knows how to say no, but explanations could be more persuasive."</p>
+        <div class="mt-3 pt-3 border-t border-zinc-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-zinc-400">Trend</span>
+            <svg viewBox="0 0 60 20" class="w-16 h-6">
+              <polyline points="0,12 12,10 24,14 36,8 48,10 60,6" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Communication -->
+      <div class="bg-white border border-zinc-200 rounded-lg p-5">
+        <div class="flex items-center justify-between mb-3">
+          <h3 class="text-sm font-semibold text-zinc-600 uppercase tracking-wide">Communication</h3>
+          <span class="text-xs text-red-600 font-medium flex items-center gap-0.5">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/></svg>
+            -3
+          </span>
+        </div>
+        <div class="flex items-end gap-2 mb-3">
+          <span class="text-3xl font-bold text-zinc-900 tabular-nums">65</span>
+          <span class="text-sm text-zinc-500">/ 100</span>
+        </div>
+        <div class="w-full bg-zinc-100 rounded-full h-2 mb-3">
+          <div class="bg-amber-500 h-2 rounded-full" style="width: 65%"></div>
+        </div>
+        <p class="text-sm text-zinc-600 italic">"Can be clearer with Dev team — some ambiguity in responses."</p>
+        <div class="mt-3 pt-3 border-t border-zinc-100">
+          <div class="flex items-center justify-between">
+            <span class="text-xs text-zinc-400">Trend</span>
+            <svg viewBox="0 0 60 20" class="w-16 h-6">
+              <polyline points="0,6 12,8 24,5 36,10 48,12 60,9" fill="none" stroke="#f59e0b" stroke-width="1.5" />
+            </svg>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Improvement Suggestions -->
+    <div class="bg-white border border-zinc-200 rounded-lg p-5">
+      <h3 class="text-lg font-semibold text-zinc-900 mb-4">Coach Recommendations</h3>
+      <div class="space-y-3">
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-amber-100 text-amber-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">!</span>
+          <div>
+            <p class="text-sm font-medium text-zinc-900">Improve communication clarity with Dev team</p>
+            <p class="text-sm text-zinc-500 mt-0.5">Your answers to Dev questions have been vague. Try being specific with numbers and constraints.</p>
+            <button class="mt-1 text-xs text-brand-600 hover:text-brand-700 font-medium">View decision log</button>
+          </div>
+        </div>
+        <div class="flex items-start gap-3">
+          <span class="w-6 h-6 bg-blue-100 text-blue-700 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5">+</span>
+          <div>
+            <p class="text-sm font-medium text-zinc-900">Practice stakeholder negotiation</p>
+            <p class="text-sm text-zinc-500 mt-0.5">When accepting priority changes, ask for written rationale. It documents the decision and sets expectations.</p>
+            <button class="mt-1 text-xs text-brand-600 hover:text-brand-700 font-medium">Try negotiation exercise</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

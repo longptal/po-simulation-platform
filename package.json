@@ -1,0 +1,35 @@
+{
+  "name": "po-simulation-platform",
+  "version": "1.0.0",
+  "private": true,
+  "packageManager": "npm@10.9.0",
+  "description": "PO Simulation Platform - Flight simulator for Product Owners",
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "db:migrate": "turbo run db:migrate",
+    "db:generate": "turbo run db:generate"
+  },
+  "workspaces": [
+    "apps/orchestrator",
+    "apps/workers",
+    "apps/web",
+    "packages/shared",
+    "packages/db"
+  ],
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": ">=10.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "turbo": "^2.9.4",
+    "typescript": "^5.7.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

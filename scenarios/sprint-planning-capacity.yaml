@@ -1,0 +1,223 @@
+id: "550e8400-e29b-41d4-a716-446655440001"
+title: "Sprint Planning: Capacity vs Stakeholder Demands"
+domain: ecommerce
+type: daily_work
+difficulty: 3
+required_po_level: 4
+estimated_duration_minutes: 15
+tags:
+  - sprint_planning
+  - prioritization
+  - stakeholder_management
+
+context:
+  product_name: "ShopFast - E-commerce Platform"
+  product_stage: growth
+  team_composition:
+    - role: "Senior Developer"
+      personality: "pragmatic, detail-oriented"
+      skill_level: "senior"
+    - role: "Junior Developer"
+      personality: "eager, learning"
+      skill_level: "junior"
+    - role: "QA Engineer"
+      personality: "thorough, cautious"
+      skill_level: "mid"
+    - role: "Designer"
+      personality: "creative, user-focused"
+      skill_level: "senior"
+
+  current_sprint:
+    day: 1
+    velocity: 40
+    committed_points: 0
+
+  existing_backlog:
+    - id: "SHOP-101"
+      title: "Add product review system"
+      points: 13
+      priority: "high"
+    - id: "SHOP-102"
+      title: "Implement wishlist feature"
+      points: 8
+      priority: "medium"
+    - id: "SHOP-103"
+      title: "Fix checkout page loading time"
+      points: 5
+      priority: "high"
+    - id: "SHOP-104"
+      title: "Add social media sharing"
+      points: 5
+      priority: "low"
+    - id: "SHOP-105"
+      title: "Improve search filters"
+      points: 8
+      priority: "medium"
+    - id: "SHOP-106"
+      title: "Mobile app push notifications"
+      points: 13
+      priority: "high"
+
+  active_metrics:
+    dau: 15000
+    revenue_mrr: 125000
+    nps: 42
+    churn_rate: 3.2
+    bug_count: 8
+
+trigger:
+  description: |
+    It's Sprint Planning day. Your team has a velocity of 40 story points based on the last 3 sprints.
+
+    However, the VP of Sales just sent you a Slack message:
+    "Hey! Our biggest client (30% of revenue) is asking for push notifications ASAP.
+    They're threatening to switch to a competitor if we don't deliver this sprint.
+    Can we make this happen? It's critical for Q2 revenue targets."
+
+    Meanwhile, your Senior Developer mentioned in standup yesterday that the checkout performance issue
+    is causing 12% cart abandonment and should be top priority.
+
+    You need to decide what to commit to this sprint.
+  delivered_by: slack_message
+  urgency: high
+  attachments:
+    - type: "slack_thread"
+      content: "VP Sales: This is make-or-break for our Q2 numbers. Client is serious about leaving."
+
+decision_tree:
+  id: "node_1"
+  prompt: |
+    You have 40 story points capacity. The backlog items are:
+    - SHOP-101: Product reviews (13 pts, high priority)
+    - SHOP-102: Wishlist (8 pts, medium priority)
+    - SHOP-103: Fix checkout performance (5 pts, high priority) - Dev says this is urgent
+    - SHOP-104: Social sharing (5 pts, low priority)
+    - SHOP-105: Search filters (8 pts, medium priority)
+    - SHOP-106: Push notifications (13 pts, high priority) - VP Sales says critical
+
+    What do you commit to this sprint?
+  decision_type: prioritize
+  options:
+    - id: "opt_1"
+      label: "Commit to push notifications (13) + checkout fix (5) + reviews (13) + social sharing (5) = 36 pts"
+      is_optimal: false
+      score_modifiers:
+        - dimension: "Prioritization"
+          delta: -15
+        - dimension: "Stakeholder Management"
+          delta: 10
+      next_node_id: "node_2_overcommit"
+      side_effects:
+        - target: stakeholder_trust
+          operation: increase
+          value: 10
+          delay_turns: 0
+        - target: team_morale
+          operation: decrease
+          value: 15
+          delay_turns: 1
+
+    - id: "opt_2"
+      label: "Commit to checkout fix (5) + reviews (13) + wishlist (8) + search filters (8) = 34 pts (ignore VP Sales)"
+      is_optimal: false
+      score_modifiers:
+        - dimension: "Prioritization"
+          delta: 5
+        - dimension: "Stakeholder Management"
+          delta: -20
+      next_node_id: null
+      side_effects:
+        - target: stakeholder_trust
+          operation: decrease
+          value: 25
+          delay_turns: 0
+        - target: metric
+          operation: increase
+          value: 8
+          delay_turns: 2
+
+    - id: "opt_3"
+      label: "Negotiate: Commit to push notifications (13) + checkout fix (5) + reviews (13) = 31 pts, explain capacity limits"
+      is_optimal: true
+      score_modifiers:
+        - dimension: "Prioritization"
+          delta: 20
+        - dimension: "Communication"
+          delta: 15
+        - dimension: "Stakeholder Management"
+          delta: 10
+      next_node_id: "node_3_negotiate"
+      side_effects:
+        - target: stakeholder_trust
+          operation: increase
+          value: 5
+          delay_turns: 0
+
+    - id: "opt_4"
+      label: "Ask team if they can stretch to 45 points this sprint"
+      is_optimal: false
+      score_modifiers:
+        - dimension: "Prioritization"
+          delta: -10
+        - dimension: "Analytics"
+          delta: -15
+      next_node_id: null
+      side_effects:
+        - target: team_morale
+          operation: decrease
+          value: 20
+          delay_turns: 0
+        - target: technical_debt
+          operation: increase
+          value: 15
+          delay_turns: 1
+
+  allow_freeform: true
+  time_pressure_seconds: 300
+  consequences:
+    - description: "Overcommitting leads to incomplete work and technical debt"
+      condition: "total_points > 40"
+    - description: "Ignoring stakeholder urgency damages trust"
+      condition: "push_notifications not included"
+
+scoring:
+  dimensions:
+    - name: "Prioritization"
+      weight: 0.35
+    - name: "Communication"
+      weight: 0.25
+    - name: "Stakeholder Management"
+      weight: 0.25
+    - name: "Analytics"
+      weight: 0.15
+
+  rubric:
+    - dimension: "Prioritization"
+      criteria: "Balanced business value with team capacity"
+      points: 25
+    - dimension: "Prioritization"
+      criteria: "Addressed technical debt (checkout fix)"
+      points: 15
+    - dimension: "Communication"
+      criteria: "Explained capacity constraints clearly"
+      points: 20
+    - dimension: "Stakeholder Management"
+      criteria: "Acknowledged VP Sales urgency"
+      points: 15
+    - dimension: "Stakeholder Management"
+      criteria: "Set realistic expectations"
+      points: 10
+    - dimension: "Analytics"
+      criteria: "Used velocity data to inform decision"
+      points: 15
+
+outcomes:
+  success_criteria: "Committed to realistic scope that addresses both business needs and technical health"
+  failure_modes:
+    - "Overcommitted and failed to deliver"
+    - "Ignored critical stakeholder request"
+    - "Neglected technical debt leading to future problems"
+  learning_objectives:
+    - "Balance stakeholder pressure with team capacity"
+    - "Use data (velocity) to make informed commitments"
+    - "Communicate trade-offs transparently"

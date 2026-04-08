@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PO Simulation Platform — Onboarding Step 2/4: Scenario Selection</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' } } } }
+    }
+  </script>
+</head>
+<body class="bg-zinc-50 min-h-screen flex items-center justify-center px-6">
+
+  <div class="w-full max-w-lg">
+    <div class="flex items-center gap-2 mb-8">
+      <div class="h-1.5 flex-1 bg-green-500 rounded-full"></div>
+      <div class="h-1.5 flex-1 bg-brand-600 rounded-full"></div>
+      <div class="h-1.5 flex-1 bg-zinc-200 rounded-full"></div>
+      <div class="h-1.5 flex-1 bg-zinc-200 rounded-full"></div>
+      <span class="text-xs text-zinc-400 tabular-nums ml-2">2 / 4</span>
+    </div>
+
+    <div class="bg-white border border-zinc-200 rounded-xl p-8 shadow-sm">
+      <h1 class="text-2xl font-bold text-zinc-900">Choose Your First Scenario</h1>
+      <p class="text-base text-zinc-600 mt-2 mb-6">Pick a scenario to start with. You can try the others later.</p>
+
+      <!-- Scenario A - Recommended -->
+      <div class="border-2 border-brand-500 bg-brand-50 rounded-lg p-5 mb-4 relative">
+        <div class="absolute -top-3 left-4 px-2 py-0.5 bg-brand-600 text-white text-xs font-medium rounded-full">Recommended</div>
+        <div class="flex items-start gap-3 mt-1">
+          <div class="w-10 h-10 bg-white rounded-lg border border-brand-200 flex items-center justify-center text-lg">A</div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-zinc-900">E-commerce App</h3>
+            <p class="text-sm text-zinc-600 mt-0.5">Sprint 3 of 8 — Team is stable</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs text-zinc-500">Focus: Feature prioritization</span>
+              <span class="text-zinc-300">|</span>
+              <span class="flex items-center gap-0.5 text-xs text-amber-600 font-medium">Difficulty: ★★☆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario B -->
+      <div class="border border-zinc-200 rounded-lg p-5 mb-4 hover:border-zinc-300 cursor-pointer group">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-zinc-100 rounded-lg flex items-center justify-center text-lg text-zinc-500 group-hover:bg-zinc-200">B</div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-zinc-900">Internal Tool</h3>
+            <p class="text-sm text-zinc-600 mt-0.5">Sprint 1 of 6 — Brand new team</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs text-zinc-500">Focus: Requirement gathering</span>
+              <span class="text-zinc-300">|</span>
+              <span class="flex items-center gap-0.5 text-xs text-green-600 font-medium">Difficulty: ★☆☆</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Scenario C -->
+      <div class="border border-zinc-200 rounded-lg p-5 hover:border-zinc-300 cursor-pointer group">
+        <div class="flex items-start gap-3">
+          <div class="w-10 h-10 bg-zinc-100 rounded-lg flex items-center justify-center text-lg text-zinc-500 group-hover:bg-zinc-200">C</div>
+          <div class="flex-1">
+            <h3 class="font-semibold text-zinc-900">Mobile App Pivot</h3>
+            <p class="text-sm text-zinc-600 mt-0.5">Sprint 5 of 8 — Team is struggling</p>
+            <div class="flex items-center gap-2 mt-2">
+              <span class="text-xs text-zinc-500">Focus: Stakeholder management</span>
+              <span class="text-zinc-300">|</span>
+              <span class="flex items-center gap-0.5 text-xs text-red-600 font-medium">Difficulty: ★★★</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex items-center justify-between mt-6">
+      <button class="px-4 py-2 text-sm text-zinc-500 hover:text-zinc-700 font-medium">Back</button>
+      <button class="px-6 py-2.5 bg-brand-600 text-white text-sm font-medium rounded-md hover:bg-brand-700 focus:ring-2 focus:ring-brand-500 focus:ring-offset-2">Start Scenario →</button>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,12 @@
+
+> @po-sim/shared@0.1.0 lint
+> eslint . --ext .ts
+
+sh: eslint: command not found
+npm error Lifecycle script `lint` failed with error:
+npm error code 127
+npm error path /Users/longpt/po-simulation-platform/packages/shared
+npm error workspace @po-sim/shared@0.1.0
+npm error location /Users/longpt/po-simulation-platform/packages/shared
+npm error command failed
+npm error command sh -c eslint . --ext .ts

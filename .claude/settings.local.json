@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); mcps = d.get\\('mcpServers', {}\\); [print\\(k, '->', list\\(v.keys\\(\\)\\)\\) for k,v in mcps.items\\(\\)]\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); mcps=d.get\\('mcpServers',{}\\); print\\('MCPs:', list\\(mcps.keys\\(\\)\\)\\)\")",
+      "Bash(python3 -m json.tool)",
+      "WebSearch",
+      "WebFetch(domain:www.gamedeveloper.com)",
+      "Bash(npm init:*)",
+      "Bash(npm install:*)",
+      "Skill(update-config)",
+      "Bash(npx tsx:*)",
+      "Bash(chmod +x:*)",
+      "Bash(npm run:*)",
+      "Read(//Users/longpt/.claude/docs/**)",
+      "Read(//Users/longpt/rune-kit-rune/skills/design/**)",
+      "Bash(open -a Docker)",
+      "Bash(ls /Users/longpt/po-simulation-platform/apps/web/tailwind.config.*)",
+      "Bash(npm list:*)",
+      "Read(//Users/longpt/.claude/**)",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d.get\\('env',{}\\), indent=2\\)\\)\")",
+      "Bash(npx turbo:*)",
+      "Bash(npx tsc:*)",
+      "Bash(docker-compose config:*)",
+      "Bash(git:*)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(npx create-next-app@14 web-scaffold --typescript --tailwind --app --no-src-dir --no-eslint --no-import-alias --use-npm)",
+      "Bash(npx next:*)",
+      "Bash(node:*)",
+      "Bash(npx vitest:*)",
+      "Bash(grep -rn '// TODO\\\\|return null\\\\|return {}\\\\|return \\\\[\\\\]\\\\|NotImplementedError\\\\|// \\\\.\\\\.\\\\.\\\\|throw new Error.*not implemented' packages/shared/src/scoring/*.ts)",
+      "Bash(curl:*)",
+      "Bash(npx playwright:*)"
+    ]
+  }
+}

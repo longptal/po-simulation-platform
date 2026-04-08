@@ -1,0 +1,24 @@
+# Build artifacts
+dist/
+node_modules/
+.next/
+coverage/
+*.js
+!jest.config.js
+*.js.map
+*.d.ts
+*.d.ts.map
+
+# Environment
+.env
+.env.local
+
+# OS
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
+
+# Nested git repos
+web-scaffold/

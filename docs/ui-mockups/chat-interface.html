@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PO Simulation Platform — Chat Interface Mockup</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .tabular-nums { font-variant-numeric: tabular-nums; }
+  </style>
+  <script>
+    tailwind.config = {
+      theme: { extend: { colors: { brand: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' } } } }
+    }
+  </script>
+</head>
+<body class="bg-zinc-50 min-h-screen">
+
+  <!-- Header -->
+  <header class="h-14 bg-white border-b border-zinc-200 flex items-center px-6 justify-between sticky top-0 z-50">
+    <div class="flex items-center gap-3">
+      <button class="p-1.5 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-md" aria-label="Back">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-xs font-bold text-violet-700">BA</div>
+      <div>
+        <h1 class="text-sm font-semibold text-zinc-900">#ba-analysis</h1>
+        <p class="text-xs text-zinc-500 flex items-center gap-1">
+          <span class="w-2 h-2 bg-green-500 rounded-full inline-block"></span>
+          BA Agent — Online
+        </p>
+      </div>
+    </div>
+    <button class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-md" aria-label="Chat menu">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/></svg>
+    </button>
+  </header>
+
+  <!-- Chat Messages -->
+  <div class="max-w-3xl mx-auto py-6 px-4 space-y-6">
+
+    <!-- BA Message with Spec Card -->
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-xs font-bold text-violet-700 shrink-0 mt-1">BA</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="text-sm font-semibold text-violet-700">BA Agent</span>
+          <span class="text-xs text-zinc-400 tabular-nums">9:15 AM</span>
+        </div>
+        <div class="bg-white border border-zinc-200 rounded-lg p-4">
+          <p class="text-base text-zinc-800">I've finished the analysis for Feature X — Date Range Filter. Here's the specification:</p>
+
+          <!-- Spec Card -->
+          <div class="mt-3 border border-zinc-200 rounded-lg bg-zinc-50 p-4">
+            <div class="flex items-center justify-between mb-3">
+              <h4 class="text-sm font-semibold text-zinc-900">Specification: Date Range Filter</h4>
+              <span class="px-2 py-0.5 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">Draft — awaiting review</span>
+            </div>
+
+            <div class="space-y-3">
+              <div>
+                <h5 class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">User Story</h5>
+                <p class="text-sm text-zinc-700 mt-1">"As a user, I want to filter orders by date range so that I can find specific time periods quickly."</p>
+              </div>
+
+              <div>
+                <h5 class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">Acceptance Criteria</h5>
+                <ul class="mt-1 space-y-1 text-sm text-zinc-700">
+                  <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">&bull;</span> Filter by single date</li>
+                  <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">&bull;</span> Filter by date range (max 90 days)</li>
+                  <li class="flex items-start gap-2"><span class="text-blue-500 mt-0.5">&bull;</span> Default: last 7 days</li>
+                </ul>
+              </div>
+
+              <div>
+                <h5 class="text-xs font-semibold text-zinc-500 uppercase tracking-wide">API Endpoints</h5>
+                <code class="block mt-1 text-xs font-mono bg-zinc-100 px-2 py-1 rounded">GET /orders?from=DATE&to=DATE</code>
+              </div>
+
+              <div class="flex items-center gap-2 pt-2 border-t border-zinc-200">
+                <span class="text-xs text-zinc-500">Priority: High</span>
+                <span class="text-zinc-300">|</span>
+                <span class="text-xs text-zinc-500">Estimate: 3 story points</span>
+              </div>
+            </div>
+          </div>
+
+          <p class="text-base text-zinc-800 mt-3">Please review and confirm. If you need any changes to the acceptance criteria, let me know.</p>
+        </div>
+        <button class="mt-1 text-xs text-brand-600 hover:text-brand-700 font-medium">View full spec</button>
+      </div>
+    </div>
+
+    <!-- User (PO) Reply -->
+    <div class="flex items-start gap-3 flex-row-reverse">
+      <div class="w-8 h-8 rounded-full bg-zinc-300 flex items-center justify-center text-xs font-bold text-zinc-600 shrink-0 mt-1">JD</div>
+      <div class="flex-1 min-w-0 flex justify-end">
+        <div class="bg-brand-50 border border-brand-100 rounded-lg p-4 max-w-lg">
+          <div class="flex items-baseline gap-2 mb-1">
+            <span class="text-sm font-semibold text-zinc-900">You</span>
+            <span class="text-xs text-zinc-400 tabular-nums">9:22 AM</span>
+          </div>
+          <p class="text-base text-zinc-800">The acceptance criteria look good, but #2 needs to be clearer — what is the maximum date range allowed? I want to make sure Dev has a hard constraint to validate against.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BA Reply -->
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-xs font-bold text-violet-700 shrink-0 mt-1">BA</div>
+      <div class="flex-1 min-w-0">
+        <div class="flex items-baseline gap-2 mb-1">
+          <span class="text-sm font-semibold text-violet-700">BA Agent</span>
+          <span class="text-xs text-zinc-400 tabular-nums">9:25 AM</span>
+        </div>
+        <div class="bg-white border border-zinc-200 rounded-lg p-4">
+          <p class="text-base text-zinc-800">Good catch! Let me add that constraint. I propose <strong>max 90 days</strong>, since our data retention policy is 90 days. That way the backend won't need to query beyond what we store.</p>
+          <p class="text-base text-zinc-800 mt-2">Updated criterion: "Filter by date range — max 90 days, validated client and server side with error message if exceeded."</p>
+          <p class="text-base text-zinc-800 mt-2">Does that work for your use case?</p>
+        </div>
+        <!-- Actions -->
+        <div class="mt-2 flex items-center gap-2">
+          <button class="px-3 py-1.5 bg-brand-600 text-white text-xs font-medium rounded-md hover:bg-brand-700">Confirm spec</button>
+          <button class="px-3 py-1.5 bg-white border border-zinc-300 text-zinc-600 text-xs font-medium rounded-md hover:bg-zinc-50">Request changes</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Typing Indicator -->
+    <div class="flex items-start gap-3">
+      <div class="w-8 h-8 rounded-full bg-violet-100 flex items-center justify-center text-xs font-bold text-violet-700 shrink-0 mt-1">BA</div>
+      <div class="flex-1">
+        <div class="bg-white border border-zinc-200 rounded-lg p-3 w-16">
+          <div class="flex items-center gap-1">
+            <span class="w-2 h-2 bg-zinc-300 rounded-full animate-bounce" style="animation-delay: 0ms"></span>
+            <span class="w-2 h-2 bg-zinc-300 rounded-full animate-bounce" style="animation-delay: 150ms"></span>
+            <span class="w-2 h-2 bg-zinc-300 rounded-full animate-bounce" style="animation-delay: 300ms"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Chat Input -->
+  <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200">
+    <div class="max-w-3xl mx-auto px-4 py-3">
+      <div class="flex items-end gap-2">
+        <button class="p-2 text-zinc-400 hover:text-zinc-600 hover:bg-zinc-100 rounded-md shrink-0" aria-label="Attach file">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/></svg>
+        </button>
+        <textarea class="flex-1 resize-none border border-zinc-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500" rows="1" placeholder="Type a message..." aria-label="Chat message input"></textarea>
+        <button class="p-2 bg-brand-600 text-white rounded-md hover:bg-brand-700 shrink-0" aria-label="Send message">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacing for fixed input -->
+  <div class="h-20"></div>
+
+</body>
+</html>
