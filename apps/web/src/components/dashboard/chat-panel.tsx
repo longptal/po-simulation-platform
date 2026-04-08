@@ -11,15 +11,15 @@ import { SessionSetup } from "./session-setup";
 function agentColor(agentType: string): string {
   switch (agentType) {
     case "system":
-      return "text-gray-400";
+      return "text-zinc-400";
     case "ba-agent":
-      return "text-blue-400";
+      return "text-violet-600";
     case "stakeholder-agent":
-      return "text-amber-400";
+      return "text-orange-600";
     case "orchestrator":
-      return "text-purple-400";
+      return "text-blue-600";
     default:
-      return "text-gray-400";
+      return "text-zinc-500";
   }
 }
 
@@ -64,19 +64,19 @@ export function ChatPanel() {
   };
 
   return (
-    <div className="flex flex-1 flex-col bg-gray-950">
+    <div className="flex flex-1 flex-col bg-white">
       {/* Sprint header */}
-      <div className="flex items-center justify-between border-b border-gray-800 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-zinc-200 px-4 py-3">
         <div>
-          <h1 className="text-lg font-semibold text-gray-100">PO Simulation Platform</h1>
+          <h1 className="text-lg font-semibold text-zinc-900">PO Simulation Platform</h1>
           {sessionStarted && (
-            <span className="text-xs text-gray-500">Sprint {currentSprint}</span>
+            <span className="text-xs text-zinc-500">Sprint {currentSprint}</span>
           )}
         </div>
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <div className={`h-2 w-2 rounded-full ${wsConnected ? "bg-green-500" : "bg-red-500"}`} />
-            <span className="text-[10px] text-gray-500">{wsConnected ? "Connected" : "Offline"}</span>
+            <div className={`h-2 w-2 rounded-full ${wsConnected ? "bg-green-600" : "bg-amber-500"}`} />
+            <span className="text-[10px] text-zinc-500">{wsConnected ? "Connected" : "Offline"}</span>
           </div>
         </div>
       </div>
@@ -88,7 +88,7 @@ export function ChatPanel() {
       <div className="flex-1 space-y-4 overflow-y-auto p-4 scrollbar-thin">
         {messages.length === 0 && sessionId && !sessionStarted && (
           <div className="flex h-full items-center justify-center">
-            <p className="text-sm text-gray-500">Waiting for simulation to start...</p>
+            <p className="text-sm text-zinc-400">Waiting for simulation to start...</p>
           </div>
         )}
         {messages.map((msg) => (
@@ -97,11 +97,11 @@ export function ChatPanel() {
               <span className={`text-xs font-semibold ${agentColor(msg.agentType)}`}>
                 {agentLabel(msg.agentType)}
               </span>
-              <span className="text-[10px] text-gray-600">
+              <span className="text-[10px] text-zinc-400">
                 {new Date(msg.timestamp).toLocaleTimeString()}
               </span>
             </div>
-            <div className="prose prose-sm prose-invert max-w-none rounded-lg bg-gray-900 px-4 py-3">
+            <div className="prose prose-sm max-w-none rounded-lg bg-zinc-50 px-4 py-3">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>{msg.content}</ReactMarkdown>
             </div>
           </div>

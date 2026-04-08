@@ -16,11 +16,11 @@ function trendIcon(trend: string): string {
 function trendColor(trend: string): string {
   switch (trend) {
     case "up":
-      return "text-green-400";
+      return "text-green-600";
     case "down":
-      return "text-red-400";
+      return "text-red-600";
     default:
-      return "text-gray-400";
+      return "text-zinc-400";
   }
 }
 

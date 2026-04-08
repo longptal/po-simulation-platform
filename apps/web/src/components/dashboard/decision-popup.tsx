@@ -9,11 +9,11 @@ interface DecisionPopupProps {
 
 export function DecisionPopup({ decision, onSubmit }: DecisionPopupProps) {
   return (
-    <div className="border-t border-gray-800 bg-gray-900/95 p-4 backdrop-blur">
-      <h3 className="mb-1 text-sm font-semibold text-amber-400">Decision Required</h3>
-      <p className="mb-1 text-sm text-gray-200">{decision.title}</p>
+    <div className="border-t border-zinc-200 bg-white/95 p-4 backdrop-blur">
+      <h3 className="mb-1 text-sm font-semibold text-orange-600">Decision Required</h3>
+      <p className="mb-1 text-sm text-zinc-900">{decision.title}</p>
       {decision.description && (
-        <p className="mb-3 text-xs text-gray-400">{decision.description}</p>
+        <p className="mb-3 text-xs text-zinc-500">{decision.description}</p>
       )}
       <div className="flex flex-wrap gap-2">
         {decision.options.map((opt) => (
